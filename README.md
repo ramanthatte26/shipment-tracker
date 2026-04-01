@@ -1,11 +1,11 @@
 # Shipment Tracker Assignment
 
-##  Setup Instructions
+## Setup Instructions
 
 ### 1. Clone the Project
 
 ```bash
-git clone <your-repo-link>
+git clone https://github.com/ramanthatte26/shipment-tracker.git
 cd shipment-tracker
 ```
 
@@ -28,7 +28,6 @@ Create a `.env` file inside the `backend` folder:
 MONGO_URI=your_mongodb_connection_string
 PORT=5000
 ```
-
 
 ---
 
@@ -53,7 +52,19 @@ Server is running on port 5000
 
 ---
 
-##  Project Working
+## Tech Used
+
+* HTML
+* CSS
+* JavaScript
+* Node.js
+* Express.js
+* MongoDB
+* Git
+
+---
+
+## Project Working
 
 This application follows a **client–server architecture** where the frontend interacts with a backend API, and the backend communicates with the database.
 
@@ -152,3 +163,9 @@ The system works by:
 * Using that ID as the **single source of truth**
 * Allowing all operations (track, update, fetch) based on that ID
 
+---
+
+## Live Deployment
+
+Backend: https://shipment-tracker-backend-r37m.onrender.com
+Frontend: https://shipment-tracker-frontend.vercel.app/index.html
