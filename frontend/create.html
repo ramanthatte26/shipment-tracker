@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShipTrack — Create Shipment</title>
+  <link rel="stylesheet" href="./allStyles.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">▲ ShipTrack</a>
+  <div class="nav-links">
+    <a href="index.html"   class="nav-link">Home</a>
+    <a href="create.html"  class="nav-link active">Create</a>
+    <a href="track.html"   class="nav-link">Track</a>
+    <a href="history.html" class="nav-link">History</a>
+    <a href="admin.html"   class="nav-link">Admin</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-title">Create New Shipment</div>
+  <div class="page-sub">Fill in the details below to book a shipment</div>
+
+  <div class="card" style="max-width: 540px;">
+    <div class="grid-2">
+      <div class="form-group">
+        <label class="form-label">Sender Name</label>
+        <input id="senderName" class="form-input" placeholder="e.g. Ravi Sharma" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Receiver Name</label>
+        <input id="receiverName" class="form-input" placeholder="e.g. Priya Mehta" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Origin City</label>
+        <input id="origin" class="form-input" placeholder="e.g. Mumbai" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Destination City</label>
+        <input id="destination" class="form-input" placeholder="e.g. Delhi" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Weight (kg) — optional</label>
+      <input id="weight" class="form-input" placeholder="e.g. 2.5"
+             style="max-width: 200px;" />
+    </div>
+
+    <button class="btn-primary" onclick="createShipment()">
+      Create Shipment
+    </button>
+
+    <div id="error-box" class="alert-error" style="display:none;"></div>
+
+    <div id="success-box" class="alert-success" style="display:none;">
+      <div style="font-size:13px; color:var(--t3); margin-bottom:8px;">
+        Shipment booked successfully! Your Tracking ID:
+      </div>
+      <div id="tid" class="tracking-id-display"></div>
+      <div style="font-size:13px; color:var(--t3); margin-top:10px;">
+        Save this ID — you'll need it to track your shipment.
+      </div>
+      <a href="track.html" style="display:inline-block; margin-top:14px;
+         color:var(--p1); font-size:13px; text-decoration:none;
+         border: 1px solid var(--p1); padding: 8px 16px; border-radius:8px;">
+        Track this shipment →
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+async function createShipment() {
+  const senderName    = document.getElementById('senderName').value.trim();
+  const receiverName  = document.getElementById('receiverName').value.trim();
+  const originCity        = document.getElementById('origin').value.trim();
+  const destinationCity   = document.getElementById('destination').value.trim();
+  const weight        = document.getElementById('weight').value.trim();
+
+  document.getElementById('error-box').style.display   = 'none';
+  document.getElementById('success-box').style.display = 'none';
+
+  if (!senderName || !receiverName || !origin || !destination) {
+    const err = document.getElementById('error-box');
+    err.textContent = 'Please fill in all required fields.';
+    err.style.display = 'block';
+    return;
+  }
+
+  try {
+    const data = await apiPost('/api/shipments',
+      { senderName, receiverName, origin : originCity, destination : destinationCity, weight });
+
+    document.getElementById('tid').textContent = data.trackingId;
+    document.getElementById('success-box').style.display = 'block';
+
+    // Clear form
+    ['senderName','receiverName','origin','destination','weight']
+      .forEach(id => document.getElementById(id).value = '');
+  } catch {
+    const err = document.getElementById('error-box');
+    err.textContent = 'Failed to create shipment. Make sure the server is running.';
+    err.style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>

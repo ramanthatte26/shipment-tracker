@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShipTrack — Admin</title>
+  <link rel="stylesheet" href="./allStyles.css"/>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">▲ ShipTrack</a>
+  <div class="nav-links">
+    <a href="index.html"   class="nav-link">Home</a>
+    <a href="create.html"  class="nav-link">Create</a>
+    <a href="track.html"   class="nav-link">Track</a>
+    <a href="history.html" class="nav-link">History</a>
+    <a href="admin.html"   class="nav-link active">Admin</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-title">Admin Dashboard</div>
+  <div class="page-sub">Manage shipments and update their statuses</div>
+
+  <div class="stats-grid" id="stats">
+    <div class="stat-card"><div class="stat-val" id="s-total">—</div><div class="stat-label">Total</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--p3);" id="s-booked">—</div><div class="stat-label">Booked</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:#85b7eb;" id="s-transit">—</div><div class="stat-label">In Transit</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:#5dcaa5;" id="s-delivered">—</div><div class="stat-label">Delivered</div></div>
+  </div>
+
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Tracking ID</th>
+            <th>Sender → Receiver</th>
+            <th>Route</th>
+            <th>Current Status</th>
+            <th>Update Status</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="5" style="color:var(--t3); text-align:center; padding:30px;">
+            Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+const STATUSES = ['Booked', 'In Transit', 'Out for Delivery', 'Delivered'];
+
+async function loadAdmin() {
+  try {
+    const data = await apiGet('/api/shipments');
+    renderStats(data);
+    renderTable(data);
+  } catch {
+    document.getElementById('tbody').innerHTML =
+      '<tr><td colspan="5" style="color:#f09595; text-align:center; padding:30px;">Failed to load. Check server.</td></tr>';
+  }
+}
+
+function renderStats(data) {
+  document.getElementById('s-total').textContent    = data.length;
+  document.getElementById('s-booked').textContent   = data.filter(s => s.status === 'Booked').length;
+  document.getElementById('s-transit').textContent  = data.filter(s => s.status === 'In Transit').length;
+  document.getElementById('s-delivered').textContent= data.filter(s => s.status === 'Delivered').length;
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('tbody');
+  if (data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:var(--t3); text-align:center; padding:30px;">No shipments yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(s => `
+    <tr>
+      <td style="font-family:monospace; color:var(--p2);">${s.trackingId}</td>
+      <td>${s.senderName} → ${s.receiverName}</td>
+      <td style="color:var(--t3); font-size:13px;">${s.origin} → ${s.destination}</td>
+      <td><span class="status-pill ${statusClass(s.status)}">${s.status}</span></td>
+      <td>
+        <select class="form-input" style="width:auto; padding:7px 12px; font-size:13px;"
+                onchange="updateStatus('${s.trackingId}', this.value)">
+          ${STATUSES.map(st =>
+            `<option ${s.status === st ? 'selected' : ''}>${st}</option>`
+          ).join('')}
+        </select>
+      </td>
+    </tr>`).join('');
+}
+
+async function updateStatus(trackingId, status) {
+  try {
+    await apiPut('/api/shipments/' + trackingId, { status });
+    loadAdmin(); // Refresh
+  } catch {
+    alert('Failed to update status. Try again.');
+  }
+}
+
+loadAdmin();
+</script>
+</body>
+</html>

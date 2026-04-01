@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShipTrack — Home</title>
+  <link rel="stylesheet" href="./allStyles.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">▲ ShipTrack</a>
+  <div class="nav-links">
+    <a href="index.html"   class="nav-link active">Home</a>
+    <a href="create.html"  class="nav-link">Create</a>
+    <a href="track.html"   class="nav-link">Track</a>
+    <a href="history.html" class="nav-link">History</a>
+    <a href="admin.html"   class="nav-link">Admin</a>
+  </div>
+</nav>
+
+<div class="container" style="text-align:center; padding-top: 60px;">
+  <h1 style="font-size: 38px; color: var(--p1); margin-bottom: 10px;">ShipTrack</h1>
+  <p style="color: var(--t3); font-size: 16px; margin-bottom: 48px;">
+    Logistics shipment tracking — fast, simple, real-time
+  </p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr;
+              gap: 16px; max-width: 500px; margin: 0 auto;">
+
+    <a href="create.html" style="text-decoration:none;">
+      <div class="card" style="cursor:pointer; transition: border-color 0.2s;"
+           onmouseover="this.style.borderColor='var(--p1)'"
+           onmouseout="this.style.borderColor='var(--bg3)'">
+        <div style="color: var(--p1); font-size: 28px; margin-bottom: 10px;">+</div>
+        <div style="font-weight: 600; color: var(--t1); margin-bottom: 4px;">Create Shipment</div>
+        <div style="font-size: 13px; color: var(--t3);">Book a new shipment and get tracking ID</div>
+      </div>
+    </a>
+
+    <a href="track.html" style="text-decoration:none;">
+      <div class="card" style="cursor:pointer; transition: border-color 0.2s;"
+           onmouseover="this.style.borderColor='var(--a1)'"
+           onmouseout="this.style.borderColor='var(--bg3)'">
+        <div style="color: var(--a1); font-size: 28px; margin-bottom: 10px;">&#9906;</div>
+        <div style="font-weight: 600; color: var(--t1); margin-bottom: 4px;">Track Shipment</div>
+        <div style="font-size: 13px; color: var(--t3);">Enter tracking ID to see live status</div>
+      </div>
+    </a>
+
+    <a href="history.html" style="text-decoration:none;">
+      <div class="card" style="cursor:pointer; transition: border-color 0.2s;"
+           onmouseover="this.style.borderColor='var(--p3)'"
+           onmouseout="this.style.borderColor='var(--bg3)'">
+        <div style="color: var(--p3); font-size: 28px; margin-bottom: 10px;">&#9776;</div>
+        <div style="font-weight: 600; color: var(--t1); margin-bottom: 4px;">Shipment History</div>
+        <div style="font-size: 13px; color: var(--t3);">View all past and ongoing shipments</div>
+      </div>
+    </a>
+
+    <a href="admin.html" style="text-decoration:none;">
+      <div class="card" style="cursor:pointer; transition: border-color 0.2s;"
+           onmouseover="this.style.borderColor='#5dcaa5'"
+           onmouseout="this.style.borderColor='var(--bg3)'">
+        <div style="color: #5dcaa5; font-size: 28px; margin-bottom: 10px;">&#9881;</div>
+        <div style="font-weight: 600; color: var(--t1); margin-bottom: 4px;">Admin Dashboard</div>
+        <div style="font-size: 13px; color: var(--t3);">Manage and update shipment statuses</div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+</body>
+</html>
