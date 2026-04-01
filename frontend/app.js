@@ -1,4 +1,4 @@
-const API = 'http://localhost:5000';
+const API = 'https://shipment-tracker-backend-r37m.onrender.com';
 
 async function apiGet(path) {
   const res = await fetch(API + path);
@@ -31,7 +31,7 @@ async function apiPut(path, data) {
 function statusClass(status) {
   const map = {
     'Booked': 's-booked',
-    'In Transit': 's-transit',    
+    'In Transit': 's-transit',
     'Out for Delivery': 's-delivery',
     'Delivered': 's-delivered'
   };
